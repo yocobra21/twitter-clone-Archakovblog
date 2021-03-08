@@ -6,10 +6,13 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import SearchIcon from '@material-ui/icons/Search';
 import PeopleIcon from '@material-ui/icons/People';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
+import { ModalBlock } from '../components/ModalBlock';
 
+import TextField from '@material-ui/core/TextField';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 
-
-const useStyles = makeStyles({
+export const useStylesSignIn = makeStyles({
     wrapper: {
         display: 'flex',
         height: '100vh'
@@ -58,8 +61,17 @@ const useStyles = makeStyles({
 
 function SignIn() {
 
-    const classes = useStyles();
+    const classes = useStylesSignIn();
 
+    const [visibleSignIn, setVisibleSignIn] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setVisibleSignIn(true);
+    };
+
+    const handleClose = () => {
+        setVisibleSignIn(false);
+    };
 
     return (
         <div className={classes.wrapper}>
@@ -95,7 +107,35 @@ function SignIn() {
                     <Button style={{ marginBottom: 20 }} variant="contained" color="primary" fullWidth>Зарегистрироваться</Button>
                     <Button onClick={handleClickOpen} variant="outlined" color="primary" fullWidth>Войти</Button>
 
-                    
+                    <ModalBlock visible={visibleSignIn} onClose={handleClose} classes={classes} title='Введите ваши данные'>
+                        <DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Почта"
+                                type="email"
+                                fullWidth
+                            />
+                            <TextField
+                                margin="dense"
+                                id="name"
+                                label="Пароль"
+                                type="password"
+                                fullWidth
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                                Отмена
+                            </Button>
+                            <Button onClick={handleClose} color="primary">
+                                Войти
+                            </Button>
+                        </DialogActions>
+                    </ModalBlock>
+
+
 
                 </div>
             </section>
