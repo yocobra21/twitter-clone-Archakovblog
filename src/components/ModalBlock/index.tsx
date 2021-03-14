@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import { useStylesSignIn } from '../../pages/SignIn';
 
 interface ModalProps {
+    dialogTitle: string;
     title: string;
     children: React.ReactNode;
     classes?: ReturnType<typeof useStylesSignIn>;
@@ -15,10 +16,10 @@ interface ModalProps {
     onClose: () => void;
 }
 
-export const ModalBlock: React.FC<ModalProps> = ({ title, children, visible = false, onClose }: ModalProps): React.ReactElement => {
+export const ModalBlock: React.FC<ModalProps> = ({dialogTitle, title, children, visible = false, onClose }: ModalProps): React.ReactElement => {
     return (
         <Dialog open={visible} onClose={onClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Войти</DialogTitle>
+            <DialogTitle id="form-dialog-title">{dialogTitle}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     {title}

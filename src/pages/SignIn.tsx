@@ -15,7 +15,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 export const useStylesSignIn = makeStyles({
     wrapper: {
         display: 'flex',
-        height: '100vh'
+        height: '100vh',
     },
     aboutSide: {
         display: 'flex',
@@ -28,13 +28,13 @@ export const useStylesSignIn = makeStyles({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        flex: '0 0 50%'
+        flex: '0 0 50%',
     },
     loginSideIcon: {
-        fontSize: 50
+        fontSize: 50,
     },
     loginSideWrapper: {
-        width: 380
+        width: 380,
     },
     aboutSideWrapper: {
         // width: 380
@@ -43,34 +43,38 @@ export const useStylesSignIn = makeStyles({
         fontWeight: 700,
         fontSize: 50,
         marginTop: 20,
-        marginBottom: 50
+        marginBottom: 50,
     },
     aboutSideListItem: {
         display: 'flex',
         alignItems: 'center',
         fontWeight: 700,
         color: 'white',
-        marginBottom: 20
+        marginBottom: 20,
     },
     aboutSideListItemIcon: {
         marginRight: 10,
-        fontSize: 35
-    }
+        fontSize: 35,
+    },
 });
 
-
 function SignIn() {
-
     const classes = useStylesSignIn();
 
-    const [visibleSignIn, setVisibleSignIn] = React.useState(false);
+    const [visibleModal, setVisibleModal] = React.useState<
+        'signIn' | 'signUp'
+    >();
 
-    const handleClickOpen = () => {
-        setVisibleSignIn(true);
+    const handleClickOpenSignIn = (): void => {
+        setVisibleModal('signIn');
     };
 
-    const handleClose = () => {
-        setVisibleSignIn(false);
+    const handleClickOpenSignUp = (): void => {
+        setVisibleModal('signUp');
+    };
+
+    const handleCloseModal = (): void => {
+        setVisibleModal(undefined);
     };
 
     return (
@@ -79,20 +83,32 @@ function SignIn() {
                 <div className={classes.aboutSideWrapper}>
                     <ul>
                         <li>
-                            <Typography variant="h5" className={classes.aboutSideListItem}>
-                                <SearchIcon className={classes.aboutSideListItemIcon} />
+                            <Typography
+                                variant="h5"
+                                className={classes.aboutSideListItem}>
+                                <SearchIcon
+                                    className={classes.aboutSideListItemIcon}
+                                />
                                 Читайте о том, что вам интересно.
                             </Typography>
                         </li>
                         <li>
-                            <Typography variant="h5" className={classes.aboutSideListItem}>
-                                <PeopleIcon className={classes.aboutSideListItemIcon} />
+                            <Typography
+                                variant="h5"
+                                className={classes.aboutSideListItem}>
+                                <PeopleIcon
+                                    className={classes.aboutSideListItemIcon}
+                                />
                                 Узнайте, о чем говорят в мире.
                             </Typography>
                         </li>
                         <li>
-                            <Typography variant="h5" className={classes.aboutSideListItem}>
-                                <ModeCommentIcon className={classes.aboutSideListItemIcon} />
+                            <Typography
+                                variant="h5"
+                                className={classes.aboutSideListItem}>
+                                <ModeCommentIcon
+                                    className={classes.aboutSideListItemIcon}
+                                />
                                 Присоединяйтесь к общению.
                             </Typography>
                         </li>
@@ -101,42 +117,104 @@ function SignIn() {
             </section>
             <section className={classes.loginSide}>
                 <div className={classes.loginSideWrapper}>
-                    <TwitterIcon color="primary" className={classes.loginSideIcon} />
-                    <Typography variant="h1" className={classes.loginSideTitle}>В курсе происходящего</Typography>
-                    <Typography> <b>Присоединяйтесь к Твиттеру прямо сейчас!</b> </Typography> <br />
-                    <Button style={{ marginBottom: 20 }} variant="contained" color="primary" fullWidth>Зарегистрироваться</Button>
-                    <Button onClick={handleClickOpen} variant="outlined" color="primary" fullWidth>Войти</Button>
-
-                    <ModalBlock visible={visibleSignIn} onClose={handleClose} classes={classes} title='Введите ваши данные'>
+                    <TwitterIcon
+                        color="primary"
+                        className={classes.loginSideIcon}
+                    />
+                    <Typography variant="h1" className={classes.loginSideTitle}>
+                        В курсе происходящего
+                    </Typography>
+                    <Typography>
+                        {' '}
+                        <b>Присоединяйтесь к Твиттеру прямо сейчас!</b>{' '}
+                    </Typography>{' '}
+                    <br />
+                    <Button
+                        onClick={handleClickOpenSignUp}
+                        style={{ marginBottom: 20 }}
+                        variant="contained"
+                        color="primary"
+                        fullWidth>
+                        Зарегистрироваться
+                    </Button>
+                    <Button
+                        onClick={handleClickOpenSignIn}
+                        variant="outlined"
+                        color="primary"
+                        fullWidth>
+                        Войти
+                    </Button>
+                    <ModalBlock
+                        visible={visibleModal === 'signUp'}
+                        onClose={handleCloseModal}
+                        classes={classes}
+                        dialogTitle="Зарегистрироваться"
+                        title="Создайте учетную запись">
                         <DialogContent>
                             <TextField
                                 autoFocus
                                 margin="dense"
                                 id="name"
+                                label="Имя"
+                                type="text"
+                                fullWidth
+                            />
+                            <TextField
+                                margin="dense"
+                                id="email"
                                 label="Почта"
                                 type="email"
                                 fullWidth
                             />
                             <TextField
                                 margin="dense"
-                                id="name"
+                                id="password"
                                 label="Пароль"
                                 type="password"
                                 fullWidth
                             />
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose} color="primary">
+                            <Button onClick={handleCloseModal} color="primary">
                                 Отмена
                             </Button>
-                            <Button onClick={handleClose} color="primary">
+                            <Button onClick={handleCloseModal} color="primary">
+                                Далее
+                            </Button>
+                        </DialogActions>
+                    </ModalBlock>
+                    <ModalBlock
+                        visible={visibleModal === 'signIn'}
+                        onClose={handleCloseModal}
+                        classes={classes}
+                        dialogTitle="Войти"
+                        title="Введите ваши данные">
+                        <DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="email"
+                                label="Почта"
+                                type="email"
+                                fullWidth
+                            />
+                            <TextField
+                                margin="dense"
+                                id="password"
+                                label="Пароль"
+                                type="password"
+                                fullWidth
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseModal} color="primary">
+                                Отмена
+                            </Button>
+                            <Button onClick={handleCloseModal} color="primary">
                                 Войти
                             </Button>
                         </DialogActions>
                     </ModalBlock>
-
-
-
                 </div>
             </section>
         </div>
